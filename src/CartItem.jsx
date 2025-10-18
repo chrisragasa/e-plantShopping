@@ -28,17 +28,27 @@ const CartItem = ({ onContinueShopping }) => {
     };
 
   const handleIncrement = (item) => {
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
-   
+    if (item.quantity > 1) {
+      dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+    } else {
+      // If quantity would go to 0, remove the item from the cart
+      dispatch(removeItem(item.name));
+    }
   };
 
   const handleRemove = (item) => {
+    dispatch(removeItem(item.name));
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    const cost = parseFloat(String(item.cost).replace(/[^0-9.]/g, '')) || 0;
+    const total = cost * (item.quantity || 0);
+    return total.toFixed(2);
   };
 
   return (
