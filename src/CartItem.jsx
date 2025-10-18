@@ -8,15 +8,24 @@ const CartItem = ({ onContinueShopping }) => {
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
-  const calculateTotalAmount = () => {
- 
-  };
+    const calculateTotalAmount = () => {
+    let total = 0; // initialize cumulative sum
+    cart.forEach(item => {
+        const quantity = item.quantity;
+        const cost = parseFloat(item.cost.substring(1)); // remove '$' and convert to number
+        total += cost * quantity; // accumulate total
+    });
+    return total.toFixed(2); // return formatted to 2 decimal places
+    };
+
 
   const handleContinueShopping = (e) => {
-   
+   if (onContinueShopping) onContinueShopping(e);
   };
 
-
+    const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
+    };
 
   const handleIncrement = (item) => {
   };
@@ -57,7 +66,7 @@ const CartItem = ({ onContinueShopping }) => {
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={(e) => handleCheckoutShopping(e)}>Checkout</button>
       </div>
     </div>
   );
